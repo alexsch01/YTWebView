@@ -23,27 +23,4 @@ public class MyWebView extends WebView {
     protected void onWindowVisibilityChanged(int visibility) {
         if (visibility != View.GONE) super.onWindowVisibilityChanged(visibility);
     }
-
-    @Override
-    public void onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (webView != null) {
-            webView.clearHistory();
-            webView.clearCache(true);
-            webView.loadUrl("about:blank");
-            webView.onPause();
-            webView.removeAllViews();
-            webView.destroyDrawingCache();
-            webView.destroy();
-        }
-        super.onDestroy();
-    }
 }

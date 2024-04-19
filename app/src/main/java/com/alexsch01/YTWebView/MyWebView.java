@@ -32,4 +32,18 @@ public class MyWebView extends WebView {
             super.onBackPressed();
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        if (webView != null) {
+            webView.clearHistory();
+            webView.clearCache(true);
+            webView.loadUrl("about:blank");
+            webView.onPause();
+            webView.removeAllViews();
+            webView.destroyDrawingCache();
+            webView.destroy();
+        }
+        super.onDestroy();
+    }
 }

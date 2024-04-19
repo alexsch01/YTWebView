@@ -23,4 +23,13 @@ public class MyWebView extends WebView {
     protected void onWindowVisibilityChanged(int visibility) {
         if (visibility != View.GONE) super.onWindowVisibilityChanged(visibility);
     }
+
+    @Override
+    public void onBackPressed() {
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

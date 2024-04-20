@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                 return super.shouldOverrideUrlLoading(view, request)
             }
         }
-        myWebView.loadUrl("https://www.youtube.com")
+        myWebView.loadUrl("https://m.youtube.com")
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

@@ -4,14 +4,11 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.KeyEvent
 import android.webkit.CookieManager
-import android.webkit.WebResourceRequest
 import android.webkit.WebStorage
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var myWebView: WebView
+    private lateinit var myWebView: CustomWebView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +27,6 @@ class MainActivity : AppCompatActivity() {
         @SuppressLint("SetJavaScriptEnabled")
         myWebView.settings.javaScriptEnabled = true
 
-        myWebView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                return super.shouldOverrideUrlLoading(view, request)
-            }
-        }
         myWebView.loadUrl("https://m.youtube.com")
     }
 

@@ -5,17 +5,17 @@ import android.view.View;
 import android.webkit.WebView;
 import android.util.AttributeSet;
 
-public class MyWebView extends WebView {
+public class CustomWebView extends WebView {
 
-    public MyWebView(Context context) {
+    public CustomWebView(Context context) {
         super(context);
     }
 
-    public MyWebView(Context context, AttributeSet attrs) {
+    public CustomWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public MyWebView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomWebView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

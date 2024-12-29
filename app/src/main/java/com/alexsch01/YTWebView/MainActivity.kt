@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         // Workaround for Google login
         myWebView.webViewClient = object : WebViewClient() {
             private val invalids = arrayOf(
+                "intent://"
                 "pagead2.googlesyndication.com",
                 "ade.googlesyndication.com",
                 "pubads.g.doubleclick.net",
@@ -43,14 +44,16 @@ class MainActivity : AppCompatActivity() {
                 "www.google.com/pagead/",
             )
 
+            private val emptyResponse = WebResourceResponse("text/html", "utf-8", ByteArrayInputStream("".toByteArray()))
+
             override fun shouldOverrideUrlLoading(
                 view: WebView?,
                 request: WebResourceRequest?
             ): Boolean {
                 val website = request?.url.toString().removePrefix("https://")
 
-                for(invalidSite in invalids) {
-                    if(website.startsWith(invalidSite)) {
+                for (invalidSite in invalids) {
+                    if (website.startsWith(invalidSite)) {
                         return true
                     }
                 }
@@ -63,10 +66,9 @@ class MainActivity : AppCompatActivity() {
             ): WebResourceResponse? {
                 val website = request?.url.toString().removePrefix("https://")
 
-                for(invalidSite in invalids) {
-                    if(website.startsWith(invalidSite)) {
-                        val redirectRes = WebResourceResponse("text/html", "utf-8", ByteArrayInputStream("".toByteArray()))
-                        return redirectRes
+                for (invalidSite in invalids) {
+                    if (website.startsWith(invalidSite)) {
+                        return emptyResponse
                     }
                 }
 

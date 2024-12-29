@@ -16,14 +16,6 @@ class MainActivity : AppCompatActivity() {
 
         myWebView = findViewById(R.id.webview)
 
-        // clear data
-        myWebView.clearFormData()
-        myWebView.clearHistory()
-        myWebView.clearSslPreferences()
-        CookieManager.getInstance().removeAllCookies(null)
-        CookieManager.getInstance().flush()
-        WebStorage.getInstance().deleteAllData()
-
         @SuppressLint("SetJavaScriptEnabled")
         myWebView.settings.javaScriptEnabled = true
 

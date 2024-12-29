@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         // Workaround for Google login
         myWebView.webViewClient = object : WebViewClient() {
             private val invalids = arrayOf(
-                "intent://"
+                "intent://",
                 "pagead2.googlesyndication.com",
                 "ade.googlesyndication.com",
                 "pubads.g.doubleclick.net",

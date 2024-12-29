@@ -3,8 +3,6 @@ package com.alexsch01.YTWebView
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.KeyEvent
-import android.webkit.CookieManager
-import android.webkit.WebStorage
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {

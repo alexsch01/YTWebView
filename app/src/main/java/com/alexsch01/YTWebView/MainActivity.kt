@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
                 "googleads.g.doubleclick.net",
                 "www.googleadservices.com",
                 "ad.doubleclick.net",
+                "static.doubleclick.net",
 
                 // Not full domains
                 "www.youtube.com/pagead/",

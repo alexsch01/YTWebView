@@ -1,4 +1,4 @@
-package com.alexsch01.YTWebViewu
+package com.alexsch01.YTWebView
 
 import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT

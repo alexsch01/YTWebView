@@ -6,7 +6,6 @@ import android.webkit.WebView;
 import android.util.AttributeSet;
 
 public class CustomWebView extends WebView {
-
     public CustomWebView(Context context) {
         super(context);
     }

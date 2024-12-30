@@ -15,6 +15,9 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import java.io.ByteArrayInputStream
 
 class MainActivity : AppCompatActivity() {
@@ -83,6 +86,7 @@ class MainActivity : AppCompatActivity() {
             private var fullScreenVideoView: View? = null
             private val viewGroup =
                 (findViewById<ViewGroup>(android.R.id.content)!!).getChildAt(0) as ViewGroup
+            private val insetsController = WindowCompat.getInsetsController(window, window.decorView)
 
             override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
                 if (fullScreenVideoView != null) {
@@ -91,15 +95,11 @@ class MainActivity : AppCompatActivity() {
                 }
                 fullScreenVideoView = view
 
-                // Deprecated but this is the most stable way of making video proper fullscreen
-                fullScreenVideoView?.systemUiVisibility = (
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                )
+                // get into proper fullscreen mode
+                insetsController.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                insetsController.hide(WindowInsetsCompat.Type.statusBars())
+                insetsController.hide(WindowInsetsCompat.Type.navigationBars())
 
                 requestedOrientation = SCREEN_ORIENTATION_LANDSCAPE
                 viewGroup.addView(fullScreenVideoView, FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT))
@@ -108,6 +108,12 @@ class MainActivity : AppCompatActivity() {
             override fun onHideCustomView() {
                 requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
                 viewGroup.removeView(fullScreenVideoView)
+
+                // get out of proper fullscreen mode
+                insetsController.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_DEFAULT
+                insetsController.show(WindowInsetsCompat.Type.statusBars())
+                insetsController.show(WindowInsetsCompat.Type.navigationBars())
 
                 fullScreenVideoView = null
             }

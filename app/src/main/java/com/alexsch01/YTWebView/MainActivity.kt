@@ -1,8 +1,8 @@
-package com.alexsch01.YTWebView
+package com.alexsch01.YTWebViewu
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -20,9 +20,11 @@ import java.io.ByteArrayInputStream
 class MainActivity : AppCompatActivity() {
     private lateinit var myWebView: CustomWebView
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
 
         myWebView = findViewById(R.id.webview)
 
@@ -104,7 +106,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onHideCustomView() {
-                requestedOrientation = SCREEN_ORIENTATION_UNSPECIFIED
+                requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
                 viewGroup.removeView(fullScreenVideoView)
 
                 fullScreenVideoView = null

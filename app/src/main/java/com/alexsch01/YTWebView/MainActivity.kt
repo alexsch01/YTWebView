@@ -158,7 +158,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        myWebView.settings.domStorageEnabled = true
         @SuppressLint("SetJavaScriptEnabled")
         myWebView.settings.javaScriptEnabled = true
 

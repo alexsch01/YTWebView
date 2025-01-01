@@ -103,8 +103,11 @@ class MainActivity : AppCompatActivity() {
                 view: WebView?,
                 request: WebResourceRequest?
             ): WebResourceResponse? {
-                myWebView.post {
-                    myWebView.evaluateJavascript("document.querySelector('ad-slot-renderer')?.remove()", null)
+                runJavascript("document.querySelector('ad-slot-renderer')?.remove()")
+
+                val isAdShowing = getJavascriptResult("!!document.querySelector('div.ad-showing')", mySemaphore, myJsInterface)
+                if (isAdShowing == "true") {
+                    runJavascript("document.querySelector('video').currentTime = document.querySelector('video').duration")
                 }
 
                 val website = request?.url.toString().removePrefix("https://")
@@ -113,11 +116,6 @@ class MainActivity : AppCompatActivity() {
                     if (website.startsWith(invalidSite)) {
                         return emptyResponse
                     }
-                }
-
-                val isAdShowing = runJavascript("!!document.querySelector('div.ad-showing')", mySemaphore, myJsInterface)
-                if (isAdShowing == "true" && website.contains(".googlevideo.com")) {
-                    return emptyResponse
                 }
 
                 return null
@@ -189,10 +187,14 @@ class MainActivity : AppCompatActivity() {
         return super.onKeyDown(keyCode, event)
     }
 
-    fun runJavascript(script: String, semaphore: Semaphore, jsInterface: JsInterface): String {
+    fun runJavascript(script: String) {
         myWebView.post {
-            myWebView.evaluateJavascript("jsInterface.setValue($script)", null)
+            myWebView.evaluateJavascript(script, null)
         }
+    }
+
+    fun getJavascriptResult(script: String, semaphore: Semaphore, jsInterface: JsInterface): String {
+        runJavascript("jsInterface.setValue($script)")
 
         // await the execution
         semaphore.acquire()

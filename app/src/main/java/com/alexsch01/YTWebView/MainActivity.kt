@@ -158,10 +158,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        myWebView.settings.domStorageEnabled = true
         @SuppressLint("SetJavaScriptEnabled")
         myWebView.settings.javaScriptEnabled = true
 
-        myWebView.loadUrl("https://m.youtube.com")
+        if (intent.dataString == null) {
+            myWebView.loadUrl("https://m.youtube.com")
+        } else {
+            myWebView.loadUrl(intent.dataString!!)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        if (intent?.dataString != null) {
+            myWebView.loadUrl(intent.dataString!!)
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

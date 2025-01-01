@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
         // Workaround for Google login
         myWebView.webViewClient = object : WebViewClient() {
             private val invalids = arrayOf(
-                "intent://",
                 "pagead2.googlesyndication.com",
                 "ade.googlesyndication.com",
                 "pubads.g.doubleclick.net",
@@ -69,6 +68,7 @@ class MainActivity : AppCompatActivity() {
                 "static.doubleclick.net",
 
                 // Not full domains
+                "intent://",
                 "www.youtube.com/pagead/",
                 "www.google.com/pagead/",
             )
@@ -103,6 +103,10 @@ class MainActivity : AppCompatActivity() {
                 view: WebView?,
                 request: WebResourceRequest?
             ): WebResourceResponse? {
+                myWebView.post {
+                    myWebView.evaluateJavascript("document.querySelector('ad-slot-renderer')?.remove()", null)
+                }
+
                 val website = request?.url.toString().removePrefix("https://")
 
                 for (invalidSite in invalids) {

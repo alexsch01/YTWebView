@@ -184,3 +184,4 @@ class MainActivity : AppCompatActivity() {
         // the interface now has the value after the execution
         return jsInterface.value
     }
+}

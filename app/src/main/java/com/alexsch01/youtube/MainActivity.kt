@@ -1,4 +1,4 @@
-package com.alexsch01.YTWebView
+package com.alexsch01.youtube
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog

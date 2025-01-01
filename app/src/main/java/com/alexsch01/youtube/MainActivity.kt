@@ -103,7 +103,10 @@ class MainActivity : AppCompatActivity() {
                 view: WebView?,
                 request: WebResourceRequest?
             ): WebResourceResponse? {
-                runJavascript("document.querySelector('ad-slot-renderer')?.remove()")
+                runJavascript("""
+                    document.querySelector('ad-slot-renderer')?.remove();
+                    document.querySelector('ytm-companion-ad-renderer')?.remove();
+                """)
 
                 val isAdShowing = getJavascriptResult("!!document.querySelector('div.ad-showing')", mySemaphore, myJsInterface)
                 if (isAdShowing == "true") {

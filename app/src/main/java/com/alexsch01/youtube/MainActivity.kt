@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                     document.querySelector('ytm-watch-metadata-app-promo-renderer')?.remove();
 
                     document.querySelector('.bottom-sheet-share-item input')?.value =
-                        document.querySelector('.bottom-sheet-share-item input')?.value.split('?si=')[0]
+                        document.querySelector('.bottom-sheet-share-item input')?.value.split('?si=')[0];
                 """)
 
                 val isAdShowing = getJavascriptResult("!!document.querySelector('div.ad-showing')", mySemaphore, myJsInterface)

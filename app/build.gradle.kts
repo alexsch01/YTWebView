@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.alexsch01.YTWebView"
+    namespace = "com.alexsch01.youtube"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.alexsch01.YTWebView"
+        applicationId = "com.alexsch01.youtube"
         minSdk = 34
         targetSdk = 34
         versionCode = 1

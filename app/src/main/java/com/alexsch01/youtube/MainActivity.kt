@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity() {
         val myJsInterface = JsInterface(mySemaphore)
         myWebView.addJavascriptInterface(myJsInterface, "jsInterface")
 
-        // Workaround for Google login
         myWebView.webViewClient = object : WebViewClient() {
             private val invalids = arrayOf(
                 "pagead2.googlesyndication.com",
@@ -106,6 +105,10 @@ class MainActivity : AppCompatActivity() {
                 runJavascript("""
                     document.querySelector('ad-slot-renderer')?.remove();
                     document.querySelector('ytm-companion-ad-renderer')?.remove();
+                    document.querySelector('ytm-watch-metadata-app-promo-renderer')?.remove();
+
+                    document.querySelector('.bottom-sheet-share-item input')?.value =
+                        document.querySelector('.bottom-sheet-share-item input')?.value.split('?si=')[0]
                 """)
 
                 val isAdShowing = getJavascriptResult("!!document.querySelector('div.ad-showing')", mySemaphore, myJsInterface)
@@ -163,6 +166,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        myWebView.isVerticalScrollBarEnabled = false
         @SuppressLint("SetJavaScriptEnabled")
         myWebView.settings.javaScriptEnabled = true
 

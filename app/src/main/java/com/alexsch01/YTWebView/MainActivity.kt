@@ -1,9 +1,12 @@
 package com.alexsch01.YTWebView
 
 import android.annotation.SuppressLint
-import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+import android.app.AlertDialog
+import android.content.Intent
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 import android.os.Bundle
+import android.os.PowerManager
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +18,13 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import java.io.ByteArrayInputStream
+import java.net.URLDecoder
+import java.util.concurrent.Semaphore
 
 class MainActivity : AppCompatActivity() {
     private lateinit var myWebView: CustomWebView
@@ -29,7 +35,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
 
+        val powerManager = getSystemService(POWER_SERVICE) as PowerManager
+        if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Unrestricted battery usage needs to be enabled")
+            builder.setPositiveButton("OK") { _, _ ->
+                finishAndRemoveTask()
+            }
+            val dialog = builder.create()
+            dialog.setCancelable(false)
+            dialog.setCanceledOnTouchOutside(false)
+            dialog.show()
+        }
+
         myWebView = findViewById(R.id.webview)
+
+        // Make the semaphore and jsInterface
+        val mySemaphore = Semaphore(0)
+        val myJsInterface = JsInterface(mySemaphore)
+        myWebView.addJavascriptInterface(myJsInterface, "jsInterface")
 
         // Workaround for Google login
         myWebView.webViewClient = object : WebViewClient() {
@@ -57,11 +81,21 @@ class MainActivity : AppCompatActivity() {
             ): Boolean {
                 val website = request?.url.toString().removePrefix("https://")
 
+                if (website.startsWith("www.youtube.com/redirect?")) {
+                    val myTest = "https://" + request?.url?.toString()?.split("%3A%2F%2F")?.get(1)
+                    view?.context?.startActivity(Intent(
+                        Intent.ACTION_VIEW,
+                        URLDecoder.decode(myTest.split("&v=")[0], "UTF8").toUri()
+                    ))
+                    return true
+                }
+
                 for (invalidSite in invalids) {
                     if (website.startsWith(invalidSite)) {
                         return true
                     }
                 }
+
                 return false
             }
 
@@ -75,6 +109,11 @@ class MainActivity : AppCompatActivity() {
                     if (website.startsWith(invalidSite)) {
                         return emptyResponse
                     }
+                }
+
+                val isAdShowing = runJavascript("!!document.querySelector('div.ad-showing')", mySemaphore, myJsInterface)
+                if (isAdShowing == "true" && website.contains(".googlevideo.com")) {
+                    return emptyResponse
                 }
 
                 return null
@@ -133,4 +172,15 @@ class MainActivity : AppCompatActivity() {
 
         return super.onKeyDown(keyCode, event)
     }
-}
+
+    fun runJavascript(script: String, semaphore: Semaphore, jsInterface: JsInterface): String {
+        myWebView.post {
+            myWebView.evaluateJavascript("jsInterface.setValue($script)", null)
+        }
+
+        // await the execution
+        semaphore.acquire()
+
+        // the interface now has the value after the execution
+        return jsInterface.value
+    }

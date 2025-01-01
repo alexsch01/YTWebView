@@ -20,6 +20,6 @@ public class CustomWebView extends WebView {
 
     @Override
     protected void onWindowVisibilityChanged(int visibility) {
-        if (visibility != View.GONE) super.onWindowVisibilityChanged(visibility);
+        super.onWindowVisibilityChanged(View.VISIBLE);
     }
 }

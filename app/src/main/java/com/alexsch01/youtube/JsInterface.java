@@ -1,4 +1,4 @@
-package com.alexsch01.YTWebView;
+package com.alexsch01.youtube;
 
 import android.webkit.JavascriptInterface;
 import java.util.concurrent.Semaphore;

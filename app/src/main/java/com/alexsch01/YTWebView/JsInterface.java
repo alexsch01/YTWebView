@@ -1,7 +1,6 @@
 package com.alexsch01.YTWebView;
 
 import android.webkit.JavascriptInterface;
-
 import java.util.concurrent.Semaphore;
 
 public class JsInterface {

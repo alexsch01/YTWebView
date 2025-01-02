@@ -95,6 +95,7 @@ class MainActivity : AppCompatActivity() {
                     document.querySelector('ad-slot-renderer')?.remove();
                     document.querySelector('ytm-companion-ad-renderer')?.remove();
                     document.querySelector('ytm-watch-metadata-app-promo-renderer')?.remove();
+                    document.querySelector('.slim-owner-purchase-button')?.remove();
 
                     if (document.querySelector('.bottom-sheet-share-item input')) {
                         document.querySelector('.bottom-sheet-share-item input').value =

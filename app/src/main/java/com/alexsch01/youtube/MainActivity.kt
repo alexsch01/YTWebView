@@ -22,9 +22,7 @@ import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import java.io.ByteArrayInputStream
 import java.net.URLDecoder
-import java.util.concurrent.Semaphore
 
 class MainActivity : AppCompatActivity() {
     private lateinit var myWebView: CustomWebView
@@ -50,41 +48,32 @@ class MainActivity : AppCompatActivity() {
 
         myWebView = findViewById(R.id.webview)
 
-        // Make the semaphore and jsInterface
-        val mySemaphore = Semaphore(0)
-        val myJsInterface = JsInterface(mySemaphore)
-        myWebView.addJavascriptInterface(myJsInterface, "jsInterface")
-
         myWebView.webViewClient = object : WebViewClient() {
             private val invalids = arrayOf(
-                "pagead2.googlesyndication.com",
-                "ade.googlesyndication.com",
-                "pubads.g.doubleclick.net",
-                "tpc.googlesyndication.com",
-                "googleads.g.doubleclick.net",
-                "www.googleadservices.com",
-                "ad.doubleclick.net",
-                "static.doubleclick.net",
-
-                // Not full domains
-                "intent://",
-                "www.youtube.com/pagead/",
-                "www.google.com/pagead/",
+                "support.google.com",
+                "wa.me",
+                "api.whatsapp.com",
+                "www.facebook.com",
+                "m.facebook.com",
+                "twitter.com",
+                "reddit.com"
             )
-
-            private val emptyResponse = WebResourceResponse("text/html", "utf-8", ByteArrayInputStream("".toByteArray()))
 
             override fun shouldOverrideUrlLoading(
                 view: WebView?,
                 request: WebResourceRequest?
             ): Boolean {
-                val website = request?.url.toString().removePrefix("https://")
+                var website = request?.url.toString()
+                if (!website.startsWith("https://")) {
+                    return true
+                }
+                website = website.removePrefix("https://")
 
                 if (website.startsWith("www.youtube.com/redirect?")) {
-                    val myTest = "https://" + request?.url?.toString()?.split("%3A%2F%2F")?.get(1)
+                    val redirectUrl = "https://" + website.split("%3A%2F%2F")[1].split("&v=")[0]
                     view?.context?.startActivity(Intent(
                         Intent.ACTION_VIEW,
-                        URLDecoder.decode(myTest.split("&v=")[0], "UTF8").toUri()
+                        URLDecoder.decode(redirectUrl, "UTF8").toUri()
                     ))
                     return true
                 }
@@ -107,22 +96,16 @@ class MainActivity : AppCompatActivity() {
                     document.querySelector('ytm-companion-ad-renderer')?.remove();
                     document.querySelector('ytm-watch-metadata-app-promo-renderer')?.remove();
 
-                    document.querySelector('.bottom-sheet-share-item input')?.value =
-                        document.querySelector('.bottom-sheet-share-item input')?.value.split('?si=')[0];
-                """)
-
-                val isAdShowing = getJavascriptResult("!!document.querySelector('div.ad-showing')", mySemaphore, myJsInterface)
-                if (isAdShowing == "true") {
-                    runJavascript("document.querySelector('video').currentTime = document.querySelector('video').duration")
-                }
-
-                val website = request?.url.toString().removePrefix("https://")
-
-                for (invalidSite in invalids) {
-                    if (website.startsWith(invalidSite)) {
-                        return emptyResponse
+                    if (document.querySelector('.bottom-sheet-share-item input')) {
+                        document.querySelector('.bottom-sheet-share-item input').value =
+                            document.querySelector('.bottom-sheet-share-item input')?.value.split('?si=')[0];
                     }
-                }
+
+                    if (document.querySelector('.ad-showing video')) {
+                        document.querySelector('.ad-showing video').currentTime =
+                            document.querySelector('.ad-showing video').duration;
+                    }
+                """)
 
                 return null
             }
@@ -198,15 +181,5 @@ class MainActivity : AppCompatActivity() {
         myWebView.post {
             myWebView.evaluateJavascript(script, null)
         }
-    }
-
-    fun getJavascriptResult(script: String, semaphore: Semaphore, jsInterface: JsInterface): String {
-        runJavascript("jsInterface.setValue($script)")
-
-        // await the execution
-        semaphore.acquire()
-
-        // the interface now has the value after the execution
-        return jsInterface.value
     }
 }

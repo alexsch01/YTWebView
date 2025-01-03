@@ -28,14 +28,9 @@ jobs:
       - name: Build Android app
         run: ./gradlew assembleDebug
 
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-debug
-          path: ${{ github.workspace }}/app/build/outputs/apk/debug/app-debug.apk
-
-      - name: '📦 Package windows x64'
+      - name: Upload APK to release
         run: |
+          gh release delete-asset apk app-debug.apk -y
           gh release upload apk ${{ github.workspace }}/app/build/outputs/apk/debug/app-debug.apk
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}

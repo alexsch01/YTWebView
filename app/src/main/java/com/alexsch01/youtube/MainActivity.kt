@@ -1,12 +1,10 @@
 package com.alexsch01.youtube
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 import android.os.Bundle
-import android.os.PowerManager
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup

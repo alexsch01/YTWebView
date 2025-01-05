@@ -27,26 +27,17 @@ import java.net.URLDecoder
 class MainActivity : AppCompatActivity() {
     private lateinit var myWebView: CustomWebView
 
-    @SuppressLint("SourceLockedOrientationActivity")
+    @SuppressLint("SourceLockedOrientationActivity", "SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
 
-        val powerManager = getSystemService(POWER_SERVICE) as PowerManager
-        if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Unrestricted battery usage needs to be enabled")
-            builder.setPositiveButton("OK") { _, _ ->
-                finishAndRemoveTask()
-            }
-            val dialog = builder.create()
-            dialog.setCancelable(false)
-            dialog.setCanceledOnTouchOutside(false)
-            dialog.show()
-        }
+        startService(Intent(this, ForegroundService::class.java))
 
         myWebView = findViewById(R.id.webview)
+        myWebView.isVerticalScrollBarEnabled = false
+        myWebView.settings.javaScriptEnabled = true
 
         myWebView.webViewClient = object : WebViewClient() {
             private val invalids = arrayOf(
@@ -150,15 +141,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        myWebView.isVerticalScrollBarEnabled = false
-        @SuppressLint("SetJavaScriptEnabled")
-        myWebView.settings.javaScriptEnabled = true
-
         if (intent.dataString == null) {
             myWebView.loadUrl("https://m.youtube.com")
         } else {
             myWebView.loadUrl(intent.dataString!!)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopService(Intent(this, ForegroundService::class.java))
     }
 
     override fun onNewIntent(intent: Intent?) {

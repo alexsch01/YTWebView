@@ -4,8 +4,8 @@ import android.content.Context
 import android.webkit.WebView
 import android.util.AttributeSet
 
-public class CustomWebView(Context context, AttributeSet attrs) : WebView(context, attrs) {
-    override protected fun onWindowVisibilityChanged(visibility: Int) {
+class CustomWebView(Context context, AttributeSet attrs) : WebView(context, attrs) {
+    override fun onWindowVisibilityChanged(visibility: Int) {
         super.onWindowVisibilityChanged(VISIBLE)
     }
 }

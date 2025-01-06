@@ -39,13 +39,14 @@ class MainActivity : AppCompatActivity() {
 
         myWebView.webViewClient = object : WebViewClient() {
             private val invalids = arrayOf(
+                "www.googleadservices.com",
                 "support.google.com",
                 "wa.me",
                 "api.whatsapp.com",
                 "www.facebook.com",
                 "m.facebook.com",
                 "twitter.com",
-                "reddit.com"
+                "reddit.com",
             )
 
             override fun shouldOverrideUrlLoading(

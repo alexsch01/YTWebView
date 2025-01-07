@@ -23,7 +23,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import java.net.URLDecoder
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var myWebView: CustomWebView
+    private lateinit var myWebView: WebView
 
     @SuppressLint("SourceLockedOrientationActivity", "SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         startService(Intent(this, ForegroundService::class.java))
 
-        myWebView = findViewById(R.id.webview)
+        myWebView = findViewById(R.id.webView)
         myWebView.isVerticalScrollBarEnabled = false
         myWebView.settings.javaScriptEnabled = true
 
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
         myWebView.webChromeClient = object : WebChromeClient() {
             private var fullScreenVideoView: View? = null
             private val viewGroup =
-                (findViewById<ViewGroup>(android.R.id.content)!!).getChildAt(0) as ViewGroup
+                (findViewById<ViewGroup>(R.id.customLinearLayout)!!).getChildAt(0) as ViewGroup
             private val insetsController = WindowCompat.getInsetsController(window, window.decorView)
 
             override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {

@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
 
                     if (document.querySelector('.bottom-sheet-share-item input')) {
                         document.querySelector('.bottom-sheet-share-item input').value =
-                            document.querySelector('.bottom-sheet-share-item input')?.value.split('?si=')[0];
+                            document.querySelector('.bottom-sheet-share-item input').value.split('?si=')[0];
                     }
 
                     if (document.querySelector('.ad-showing video') && !isNaN(document.querySelector('.ad-showing video').duration)) {

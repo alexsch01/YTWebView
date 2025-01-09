@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                             document.querySelector('.bottom-sheet-share-item input')?.value.split('?si=')[0];
                     }
 
-                    if (document.querySelector('.ad-showing video')) {
+                    if (document.querySelector('.ad-showing video') && !isNaN(document.querySelector('.ad-showing video').duration)) {
                         document.querySelector('.ad-showing video').currentTime =
                             document.querySelector('.ad-showing video').duration;
                     }

@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         startService(Intent(this, ForegroundService::class.java))
 
         myWebView = findViewById(R.id.webView)
+        myWebView.overScrollMode = WebView.OVER_SCROLL_NEVER
         myWebView.isVerticalScrollBarEnabled = false
         myWebView.settings.javaScriptEnabled = true
 

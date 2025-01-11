@@ -6,8 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
 
-    <com.alexsch01.youtube.CustomLinearLayout
-        android:id="@+id/customLinearLayout"
+    <com.alexsch01.youtube.CustomFrameLayout
+        android:id="@+id/customFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -15,5 +15,5 @@
             android:id="@+id/webView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </com.alexsch01.youtube.CustomLinearLayout>
+    </com.alexsch01.youtube.CustomFrameLayout>
 </FrameLayout>

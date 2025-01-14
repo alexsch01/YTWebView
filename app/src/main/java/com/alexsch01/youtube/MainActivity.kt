@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         runJavascript("document.querySelector('video')?.paused") { isPaused ->
-            if (isPaused == "false") {
+            if (isPaused == "false" || isPaused == "null") {
                 startService(foregroundServiceIntent)
             }
         }

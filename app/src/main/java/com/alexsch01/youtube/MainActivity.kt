@@ -137,8 +137,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        runJavascript("document.querySelector('video')?.paused") { isPaused ->
-            if (isPaused == "false" || isPaused == "null") {
+        runJavascript(
+            "document.querySelectorAll('.ytp-ad-action-interstitial').length > 0 || !document.querySelector('video')?.paused"
+        ) { isPlaying ->
+            if (isPlaying == "true") {
                 startService(foregroundServiceIntent)
             }
         }

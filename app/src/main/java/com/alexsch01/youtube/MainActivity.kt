@@ -7,7 +7,6 @@ import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
-import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
@@ -22,7 +21,6 @@ import java.net.URLDecoder
 
 class MainActivity : AppCompatActivity() {
     private lateinit var myWebView: WebView
-    private lateinit var foregroundServiceIntent: Intent
 
     @SuppressLint("SourceLockedOrientationActivity", "SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
 
-        foregroundServiceIntent = Intent(this, ForegroundService::class.java)
+        startService(Intent(this, ForegroundService::class.java))
 
         myWebView = findViewById(R.id.webView)
         myWebView.overScrollMode = WebView.OVER_SCROLL_NEVER
@@ -135,25 +133,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        runJavascript(
-            "document.querySelectorAll('.ytp-ad-action-interstitial').length > 0 || !document.querySelector('video')?.paused"
-        ) { isPlaying ->
-            if (isPlaying == "true") {
-                startService(foregroundServiceIntent)
-            }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        stopService(foregroundServiceIntent)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-        stopService(foregroundServiceIntent)
+        stopService(Intent(this, ForegroundService::class.java))
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -173,9 +155,9 @@ class MainActivity : AppCompatActivity() {
         return super.onKeyDown(keyCode, event)
     }
 
-    fun runJavascript(script: String, resultCallback: ValueCallback<String>? = null) {
+    fun runJavascript(script: String) {
         myWebView.post {
-            myWebView.evaluateJavascript(script, resultCallback)
+            myWebView.evaluateJavascript(script, null)
         }
     }
 }

@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.alexsch01.youtube"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.alexsch01.youtube"
         minSdk = 33
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 

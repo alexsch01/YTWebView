@@ -111,11 +111,11 @@ class MainActivity : AppCompatActivity() {
                     WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
                 insetsController.hide(WindowInsetsCompat.Type.systemBars())
 
+                frameLayout.addView(view, 1)
                 view?.post {
                     // Doing it part of the post is required to prevent video glitch
                     requestedOrientation = SCREEN_ORIENTATION_LANDSCAPE
                 }
-                frameLayout.addView(view, 1)
             }
 
             override fun onHideCustomView() {

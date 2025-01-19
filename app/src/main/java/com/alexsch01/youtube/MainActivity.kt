@@ -18,6 +18,8 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import java.net.URLDecoder
+import java.util.Timer
+import kotlin.concurrent.schedule
 
 class MainActivity : AppCompatActivity() {
     private lateinit var myWebView: WebView
@@ -104,6 +106,7 @@ class MainActivity : AppCompatActivity() {
         myWebView.webChromeClient = object : WebChromeClient() {
             private val frameLayout = findViewById<CustomFrameLayout>(R.id.customFrameLayout)
             private val insetsController = WindowCompat.getInsetsController(window, window.decorView)
+            private val myTimer = Timer()
 
             override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
                 // get into proper fullscreen mode
@@ -112,8 +115,8 @@ class MainActivity : AppCompatActivity() {
                 insetsController.hide(WindowInsetsCompat.Type.systemBars())
 
                 frameLayout.addView(view, 1)
-                view?.post {
-                    // Doing it part of the post is required to prevent video glitch
+                myTimer.schedule(100) {
+                    // need a delay when going to landscape mode to prevent video glitch
                     requestedOrientation = SCREEN_ORIENTATION_LANDSCAPE
                 }
             }

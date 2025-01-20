@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                 view: WebView?,
                 request: WebResourceRequest?
             ): Boolean {
-                var website = request?.url.toString()
+                val website = request?.url.toString()
 
                 if (
                     website.startsWith("https://accounts.google.com") ||

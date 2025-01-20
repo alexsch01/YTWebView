@@ -36,43 +36,28 @@ class MainActivity : AppCompatActivity() {
         myWebView.settings.javaScriptEnabled = true
 
         myWebView.webViewClient = object : WebViewClient() {
-            private val invalids = arrayOf(
-                "www.googleadservices.com",
-                "support.google.com",
-                "wa.me",
-                "api.whatsapp.com",
-                "www.facebook.com",
-                "m.facebook.com",
-                "twitter.com",
-                "reddit.com",
-            )
-
             override fun shouldOverrideUrlLoading(
                 view: WebView?,
                 request: WebResourceRequest?
             ): Boolean {
                 var website = request?.url.toString()
-                if (!website.startsWith("https://")) {
-                    return true
-                }
-                website = website.removePrefix("https://")
 
-                if (website.startsWith("www.youtube.com/redirect?")) {
+                if (
+                    website.startsWith("https://accounts.google.com") ||
+                    website.startsWith("https://accounts.youtube.com")
+                ) {
+                    return false
+                }
+
+                if (website.startsWith("https://www.youtube.com/redirect?")) {
                     val redirectUrl = "https://" + website.split("%3A%2F%2F")[1].split("&v=")[0]
                     view?.context?.startActivity(Intent(
                         Intent.ACTION_VIEW,
                         URLDecoder.decode(redirectUrl, "UTF8").toUri()
                     ))
-                    return true
                 }
 
-                for (invalidSite in invalids) {
-                    if (website.startsWith(invalidSite)) {
-                        return true
-                    }
-                }
-
-                return false
+                return true
             }
 
             override fun shouldInterceptRequest(

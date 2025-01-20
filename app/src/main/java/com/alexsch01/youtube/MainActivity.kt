@@ -36,25 +36,40 @@ class MainActivity : AppCompatActivity() {
         myWebView.settings.javaScriptEnabled = true
 
         myWebView.webViewClient = object : WebViewClient() {
+            private val validSites = arrayOf(
+                "accounts.google.com",
+                "accounts.youtube.com",
+
+                // Open by default -- supported links
+                "youtu.be",
+                "m.youtube.com",
+                "youtube.com",
+                "www.youtube.com"
+            )
+            
             override fun shouldOverrideUrlLoading(
                 view: WebView?,
                 request: WebResourceRequest?
             ): Boolean {
-                val website = request?.url.toString()
-
-                if (
-                    website.startsWith("https://accounts.google.com") ||
-                    website.startsWith("https://accounts.youtube.com")
-                ) {
-                    return false
+                var website = request?.url.toString()
+                if (!website.startsWith("https://")) {
+                    return true
                 }
+                website = website.removePrefix("https://")
 
-                if (website.startsWith("https://www.youtube.com/redirect?")) {
+                if (website.startsWith("www.youtube.com/redirect?")) {
                     val redirectUrl = "https://" + website.split("%3A%2F%2F")[1].split("&v=")[0]
                     view?.context?.startActivity(Intent(
                         Intent.ACTION_VIEW,
                         URLDecoder.decode(redirectUrl, "UTF8").toUri()
                     ))
+                    return true
+                }
+
+                for (validSite in validSites) {
+                    if (website.startsWith(validSite)) {
+                        return false
+                    }
                 }
 
                 return true

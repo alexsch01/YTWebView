@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
+import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
@@ -34,6 +35,22 @@ class MainActivity : AppCompatActivity() {
         myWebView.overScrollMode = WebView.OVER_SCROLL_NEVER
         myWebView.isVerticalScrollBarEnabled = false
         myWebView.settings.javaScriptEnabled = true
+
+        myWebView.addJavascriptInterface(object {
+            @JavascriptInterface
+            fun onVideoPaused() {
+                myWebView.post {
+                    myWebView.keepScreenOn = false
+                }
+            }
+
+            @JavascriptInterface
+            fun onVideoPlayed() {
+                myWebView.post {
+                    myWebView.keepScreenOn = true
+                }
+            }
+        }, "Android")
 
         myWebView.webViewClient = object : WebViewClient() {
             private val validSites = arrayOf(
@@ -80,6 +97,15 @@ class MainActivity : AppCompatActivity() {
                 request: WebResourceRequest?
             ): WebResourceResponse? {
                 runJavascript("""
+                    if (document.querySelector('video') && !document.querySelector('video').onpause) {
+                        document.querySelector('video').onpause = function() {
+                            Android.onVideoPaused();
+                        };
+                        document.querySelector('video').onplay = function() {
+                            Android.onVideoPlayed();
+                        };
+                    }
+                
                     document.querySelector('ad-slot-renderer')?.remove();
                     document.querySelector('ytm-companion-ad-renderer')?.remove();
                     document.querySelector('ytm-watch-metadata-app-promo-renderer')?.remove();

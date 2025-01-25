@@ -30,11 +30,11 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Build Android app
-        run: ./gradlew assembleDebug
+        run: ./gradlew assemble
 
       - name: Upload APK to release
         run: |
-          gh release delete-asset apk app-debug.apk -y
-          gh release upload apk ${{ github.workspace }}/app/build/outputs/apk/debug/app-debug.apk
+          gh release delete-asset apk app-release.apk -y
+          gh release upload apk ${{ github.workspace }}/app/build/outputs/apk/release/app-release.apk
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}

@@ -142,6 +142,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         stopService(Intent(this, ForegroundService::class.java))
+        myWebView.onDestroy()
     }
 
     override fun onNewIntent(intent: Intent?) {

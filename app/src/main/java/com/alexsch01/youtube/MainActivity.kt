@@ -140,7 +140,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        myWebView.destroy()
         super.onDestroy()
         stopService(Intent(this, ForegroundService::class.java))
     }

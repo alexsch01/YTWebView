@@ -21,6 +21,7 @@ import java.net.URLDecoder
 
 class MainActivity : AppCompatActivity() {
     private lateinit var myWebView: WebView
+    private var customViewActive = false
 
     @SuppressLint("SourceLockedOrientationActivity", "SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,6 +116,7 @@ class MainActivity : AppCompatActivity() {
                 insetsController.hide(WindowInsetsCompat.Type.systemBars())
 
                 frameLayout.addView(view, 1)
+                customViewActive = true
                 view?.postDelayed({
                     // need a delay when going to landscape mode to prevent video glitch
                     requestedOrientation = SCREEN_ORIENTATION_LANDSCAPE
@@ -123,6 +125,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onHideCustomView() {
                 requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
+                customViewActive = false
                 frameLayout.removeViewAt(1)
 
                 // get out of proper fullscreen mode
@@ -153,9 +156,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK && myWebView.canGoBack()) {
-            myWebView.goBack()
-            return true
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (customViewActive) {
+                myWebView.webChromeClient?.onHideCustomView()
+                return true
+            } else if (myWebView.canGoBack()) {
+                myWebView.goBack()
+                return true
+            }
         }
 
         return super.onKeyDown(keyCode, event)

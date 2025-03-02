@@ -40,6 +40,8 @@ class MainActivity : AppCompatActivity() {
             private val validSites = arrayOf(
                 "accounts.google.com",
                 "accounts.youtube.com",
+                "myaccount.google.com/accounts/SetOSID",
+                "gds.google.com/web/landing",
 
                 // Open by default -- supported links
                 "youtu.be",
@@ -80,25 +82,27 @@ class MainActivity : AppCompatActivity() {
                 view: WebView?,
                 request: WebResourceRequest?
             ): WebResourceResponse? {
-                runJavascript("""
-                    if (document.querySelector('ad-slot-renderer')) {
-                        document.querySelector('ad-slot-renderer').hidden = true;
-                    }
-
-                    if (document.querySelector('ytm-companion-ad-renderer')) {
-                        document.querySelector('ytm-companion-ad-renderer').hidden = true;
-                    }
-
-                    if (document.querySelector('.bottom-sheet-share-item input')) {
-                        document.querySelector('.bottom-sheet-share-item input').value =
-                            document.querySelector('.bottom-sheet-share-item input').value.split('?si=')[0];
-                    }
-
-                    if (document.querySelector('.ad-showing video') && !isNaN(document.querySelector('.ad-showing video').duration)) {
-                        document.querySelector('.ad-showing video').currentTime =
-                            document.querySelector('.ad-showing video').duration;
-                    }
-                """)
+                myWebView.post {
+                    myWebView.evaluateJavascript("""
+                        if (document.querySelector('ad-slot-renderer')) {
+                            document.querySelector('ad-slot-renderer').hidden = true;
+                        }
+    
+                        if (document.querySelector('ytm-companion-ad-renderer')) {
+                            document.querySelector('ytm-companion-ad-renderer').hidden = true;
+                        }
+    
+                        if (document.querySelector('.bottom-sheet-share-item input')) {
+                            document.querySelector('.bottom-sheet-share-item input').value =
+                                document.querySelector('.bottom-sheet-share-item input').value.split('?si=')[0];
+                        }
+    
+                        if (document.querySelector('.ad-showing video') && !isNaN(document.querySelector('.ad-showing video').duration)) {
+                            document.querySelector('.ad-showing video').currentTime =
+                                document.querySelector('.ad-showing video').duration;
+                        }
+                    """, null)
+                }
 
                 return null
             }
@@ -158,7 +162,7 @@ class MainActivity : AppCompatActivity() {
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (customViewActive) {
-                myWebView.webChromeClient?.onHideCustomView()
+                myWebView.evaluateJavascript("document.querySelector('.fullscreen-icon').click()", null)
                 return true
             } else if (myWebView.canGoBack()) {
                 myWebView.goBack()
@@ -167,11 +171,5 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onKeyDown(keyCode, event)
-    }
-
-    fun runJavascript(script: String) {
-        myWebView.post {
-            myWebView.evaluateJavascript(script, null)
-        }
     }
 }

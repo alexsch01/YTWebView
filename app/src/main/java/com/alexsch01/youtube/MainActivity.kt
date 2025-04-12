@@ -163,6 +163,7 @@ class MainActivity : AppCompatActivity() {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (customViewActive) {
                 myWebView.evaluateJavascript("document.querySelector('.fullscreen-icon').click()", null)
+                customViewActive = false
                 return true
             } else if (myWebView.canGoBack()) {
                 myWebView.goBack()

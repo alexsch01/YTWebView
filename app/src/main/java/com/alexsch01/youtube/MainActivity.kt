@@ -3,7 +3,7 @@ package com.alexsch01.youtube
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -21,15 +21,16 @@ import java.net.URLDecoder
 
 class MainActivity : AppCompatActivity() {
     private lateinit var myWebView: WebView
+    private lateinit var intentForegroundService: Intent
     private var customViewActive = false
 
-    @SuppressLint("SourceLockedOrientationActivity", "SetJavaScriptEnabled")
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
 
-        startService(Intent(this, ForegroundService::class.java))
+        intentForegroundService = Intent(this, ForegroundService::class.java)
+        startService(intentForegroundService)
 
         myWebView = findViewById(R.id.webView)
         myWebView.overScrollMode = WebView.OVER_SCROLL_NEVER
@@ -128,7 +129,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onHideCustomView() {
-                requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
+                requestedOrientation = SCREEN_ORIENTATION_UNSPECIFIED
                 customViewActive = false
                 frameLayout.removeViewAt(1)
 
@@ -148,7 +149,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        stopService(Intent(this, ForegroundService::class.java))
+        stopService(intentForegroundService)
     }
 
     override fun onNewIntent(intent: Intent?) {

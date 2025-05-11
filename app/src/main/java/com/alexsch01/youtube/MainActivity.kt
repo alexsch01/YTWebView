@@ -2,8 +2,8 @@ package com.alexsch01.youtube
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -84,10 +84,21 @@ class MainActivity : AppCompatActivity() {
                 request: WebResourceRequest?
             ): WebResourceResponse? {
                 myWebView.post {
+                    /*
+                        USE
+                            if (Element) { Element.hidden = true; }
+                        OVER
+                            Element?.remove();
+                    */
                     myWebView.evaluateJavascript("""
-                        document.querySelector('ad-slot-renderer')?.remove();
-                        document.querySelector('ytm-companion-ad-renderer')?.remove();
-
+                        if (document.querySelector('ad-slot-renderer')) {
+                            document.querySelector('ad-slot-renderer').hidden = true;
+                        }
+    
+                        if (document.querySelector('ytm-companion-ad-renderer')) {
+                            document.querySelector('ytm-companion-ad-renderer').hidden = true;
+                        }
+    
                         if (document.querySelector('.bottom-sheet-share-item input')) {
                             document.querySelector('.bottom-sheet-share-item input').value =
                                 document.querySelector('.bottom-sheet-share-item input').value.split('?si=')[0];
@@ -119,7 +130,7 @@ class MainActivity : AppCompatActivity() {
                 customViewActive = true
                 view?.postDelayed({
                     // need a delay when going to landscape mode to prevent video glitch
-                    requestedOrientation = SCREEN_ORIENTATION_LANDSCAPE
+                    requestedOrientation = SCREEN_ORIENTATION_USER_LANDSCAPE
                 }, 100)
             }
 

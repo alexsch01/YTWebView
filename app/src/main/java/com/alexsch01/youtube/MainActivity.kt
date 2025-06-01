@@ -108,6 +108,8 @@ class MainActivity : AppCompatActivity() {
                             document.querySelector('.ad-showing video').currentTime =
                                 document.querySelector('.ad-showing video').duration;
                         }
+
+                        document.querySelectorAll('ytm-video-with-context-renderer:has(ytm-badge-supported-renderer)').forEach(e => e.remove())
                     """, null)
                 }
 

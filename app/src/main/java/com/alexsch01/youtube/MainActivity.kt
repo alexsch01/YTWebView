@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                         if (document.querySelector('ad-slot-renderer')) {
                             document.querySelector('ad-slot-renderer').hidden = true;
                         }
-    
+
                         if (document.querySelector('ytm-companion-ad-renderer')) {
                             document.querySelector('ytm-companion-ad-renderer').hidden = true;
                         }
@@ -110,6 +110,9 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         document.querySelectorAll('ytm-video-with-context-renderer:has([data-type="BADGE_STYLE_TYPE_YPC"])').forEach(elem => {
+                            elem.hidden = true;
+                        });
+                        document.querySelectorAll('ytm-video-with-context-renderer:has(img[src*="clapperboard_profile"])').forEach(elem => {
                             elem.hidden = true;
                         });
                     """, null)

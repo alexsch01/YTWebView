@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                                 document.querySelector('.ad-showing video').duration;
                         }
 
-                        document.querySelectorAll('ytm-video-with-context-renderer:has(ytm-badge-supported-renderer)').forEach(elem => {
+                        document.querySelectorAll('ytm-video-with-context-renderer:has([data-type="BADGE_STYLE_TYPE_YPC"])').forEach(elem => {
                             elem.hidden = true;
                         });
                     """, null)

@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                                 document.querySelector('.ad-showing video').duration;
                         }
 
-                        document.querySelectorAll('ytm-video-with-context-renderer:has([data-type="BADGE_STYLE_TYPE_YPC"])').forEach(elem => {
+                        document.querySelectorAll('ytm-video-with-context-renderer:has([no-channel-avatar="true"])').forEach(elem => {
                             elem.hidden = true;
                         });
                         document.querySelectorAll('ytm-video-with-context-renderer:has(img[src*="clapperboard_profile"])').forEach(elem => {

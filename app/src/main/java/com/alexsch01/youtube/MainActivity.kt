@@ -108,6 +108,10 @@ class MainActivity : AppCompatActivity() {
                             document.querySelector('.ad-showing video').currentTime =
                                 document.querySelector('.ad-showing video').duration;
                         }
+
+                        document.querySelectorAll('ytm-video-with-context-renderer:has(img[src*="clapperboard_profile_v2.png"])').forEach(elem => {Add commentMore actions
+                            elem.hidden = true;
+                        });
                     """, null)
                 }
 

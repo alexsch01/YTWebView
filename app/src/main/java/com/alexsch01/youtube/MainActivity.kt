@@ -135,7 +135,10 @@ class MainActivity : AppCompatActivity() {
 
                 frameLayout.addView(view, 1)
                 customViewActive = true
-                requestedOrientation = SCREEN_ORIENTATION_USER_LANDSCAPE
+                view?.postDelayed({Add commentMore actions
+                    // need a delay when going to landscape mode to prevent video glitch
+                    requestedOrientation = SCREEN_ORIENTATION_USER_LANDSCAPE
+                }, 100)
             }
 
             override fun onHideCustomView() {

@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         myWebView.overScrollMode = WebView.OVER_SCROLL_NEVER
         myWebView.isVerticalScrollBarEnabled = false
         myWebView.settings.javaScriptEnabled = true
+        myWebView.settings.domStorageEnabled = true
 
         myWebView.webViewClient = object : WebViewClient() {
             private val validSites = arrayOf(

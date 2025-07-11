@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         myWebView.isVerticalScrollBarEnabled = false
         myWebView.settings.javaScriptEnabled = true
         myWebView.settings.domStorageEnabled = true
+        myWebView.settings.mediaPlaybackRequiresUserGesture = false
 
         myWebView.webViewClient = object : WebViewClient() {
             private val validSites = arrayOf(

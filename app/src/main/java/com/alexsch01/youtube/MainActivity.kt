@@ -175,17 +175,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (customViewActive) {
-                myWebView.evaluateJavascript("document.querySelector('.fullscreen-icon').click()", null)
-                return true
-            } else if (myWebView.canGoBack()) {
-                myWebView.goBack()
-                return true
-            }
+    override fun onBackPressed() {
+        if (customViewActive) {
+            myWebView.evaluateJavascript("document.querySelector('.fullscreen-icon').click()", null)
+        } else if (myWebView.canGoBack()) {
+            myWebView.goBack()
+        } else {
+            super.onBackPressed()
         }
-
-        return super.onKeyDown(keyCode, event)
     }
 }

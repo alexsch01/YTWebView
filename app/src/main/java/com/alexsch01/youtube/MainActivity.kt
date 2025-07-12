@@ -126,7 +126,7 @@ class MainActivity : AppCompatActivity() {
 
         // Workaround for fullscreen videos
         myWebView.webChromeClient = object : WebChromeClient() {
-            private val frameLayout = findViewById<CustomFrameLayout>(R.id.customFrameLayout)
+            private val frameLayout: CustomFrameLayout = findViewById(R.id.customFrameLayout)
             private val insetsController = WindowCompat.getInsetsController(window, window.decorView)
 
             override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {

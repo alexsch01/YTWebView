@@ -2,8 +2,7 @@ package com.alexsch01.youtube
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebChromeClient
@@ -137,12 +136,12 @@ class MainActivity : AppCompatActivity() {
                 customViewActive = true
                 view?.postDelayed({
                     // need a delay when going to landscape mode to prevent video glitch
-                    requestedOrientation = SCREEN_ORIENTATION_USER_LANDSCAPE
+                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE
                 }, 100)
             }
 
             override fun onHideCustomView() {
-                requestedOrientation = SCREEN_ORIENTATION_UNSPECIFIED
+                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                 customViewActive = false
                 frameLayout.removeViewAt(1)
 

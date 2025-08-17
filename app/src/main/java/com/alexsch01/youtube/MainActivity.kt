@@ -114,6 +114,10 @@ class MainActivity : AppCompatActivity() {
                         )`).forEach(elem => {
                             elem.hidden = true;
                         });
+
+                        document.querySelectorAll('.ytSuggestionComponentRemoveLink').forEach(elem => {
+                            elem.hidden = true;
+                        });
                     """, null)
                 }
 

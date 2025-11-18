@@ -97,6 +97,10 @@ class MainActivity : AppCompatActivity() {
                         if (document.querySelector('ytm-companion-ad-renderer')) {
                             document.querySelector('ytm-companion-ad-renderer').hidden = true;
                         }
+
+                        if (document.querySelector('ytm-universal-watch-card-renderer')) {
+                            document.querySelector('ytm-universal-watch-card-renderer').hidden = true;
+                        }
     
                         if (document.querySelector('.bottom-sheet-share-item input')) {
                             document.querySelector('.bottom-sheet-share-item input').value =

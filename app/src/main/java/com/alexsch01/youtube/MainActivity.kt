@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
                                 document.querySelector('.ad-showing video').duration;
                         }
 
-                        document.querySelectorAll(`ytm-video-with-context-renderer:has(
+                        document.querySelectorAll(`ytm-item-section-renderer ytm-video-with-context-renderer:has(
                             img[src="https://www.gstatic.com/youtube/img/tvfilm/clapperboard_profile_v2.png"],
                             div[no-channel-avatar="true"]
                         )`).forEach(elem => {

@@ -112,10 +112,10 @@ class MainActivity : AppCompatActivity() {
                                 document.querySelector('.ad-showing video').duration;
                         }
 
-                        document.querySelectorAll(`ytm-item-section-renderer ytm-video-with-context-renderer:has(
-                            img[src="https://www.gstatic.com/youtube/img/tvfilm/clapperboard_profile_v2.png"],
-                            img[src="https://yt3.ggpht.com/FnWK1Inih45sn80XTnZdTOQ2X0QyzsVXMxHQJ6fn3ST6b83-YR1bRa6duTFdL7nXAktvYEcmimQ=s68-c-k-c0x00ffffff-no-rj-mo"],
-                            div[no-channel-avatar="true"]
+                        document.querySelectorAll(`ytm-video-with-context-renderer:has(
+                            badge-shape[aria-label="Purchased"],
+                            badge-shape[aria-label="Preview only"],
+                            badge-shape[aria-label="Try now"]
                         )`).forEach(elem => {
                             elem.hidden = true;
                         });

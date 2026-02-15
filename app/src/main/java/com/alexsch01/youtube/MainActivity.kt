@@ -115,7 +115,8 @@ class MainActivity : AppCompatActivity() {
                         document.querySelectorAll(`ytm-video-with-context-renderer:has(
                             badge-shape[aria-label="Purchased"],
                             badge-shape[aria-label="Preview only"],
-                            badge-shape[aria-label="Try now"]
+                            badge-shape[aria-label="Try now"],
+                            badge-shape[aria-label="Free with ads"]
                         )`).forEach(elem => {
                             elem.hidden = true;
                         });

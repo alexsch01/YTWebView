@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.alexsch01.youtube"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.alexsch01.youtube"

@@ -3,7 +3,6 @@ package com.alexsch01.youtube
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
@@ -14,7 +13,7 @@ class ForegroundService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         val channel = NotificationChannel(channelID, "Foreground Service Channel", NotificationManager.IMPORTANCE_DEFAULT)
         notificationManager.createNotificationChannel(channel)
     }

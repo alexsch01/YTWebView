@@ -109,10 +109,8 @@ class MainActivity : AppCompatActivity() {
                         }
     
                         if (document.querySelector('.ad-showing video') && !isNaN(document.querySelector('.ad-showing video').duration)) {
-                            (new Promise(resolve => setTimeout(resolve, 100))).then(() => {
-                                document.querySelector('.ad-showing video').currentTime =
-                                    document.querySelector('.ad-showing video').duration;
-                            });
+                            document.querySelector('.ad-showing video').currentTime =
+                                document.querySelector('.ad-showing video').duration;
                         }
 
                         document.querySelectorAll(`ytm-video-with-context-renderer:has(

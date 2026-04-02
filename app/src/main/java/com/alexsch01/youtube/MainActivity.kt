@@ -10,6 +10,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
@@ -162,6 +163,24 @@ class MainActivity : AppCompatActivity() {
         } else {
             myWebView.loadUrl(myIntent)
         }
+
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    when {
+                        customViewActive -> {
+                            myWebView.evaluateJavascript(
+                                "document.querySelector('.fullscreen-icon').click()",
+                                null
+                            )
+                        }
+                        myWebView.canGoBack() -> myWebView.goBack()
+                        else -> isEnabled = false
+                    }
+                }
+            }
+        )
     }
 
     override fun onDestroy() {
@@ -175,16 +194,6 @@ class MainActivity : AppCompatActivity() {
         val myIntent = intent.dataString
         if (myIntent != null) {
             myWebView.loadUrl(myIntent)
-        }
-    }
-
-    override fun onBackPressed() {
-        if (customViewActive) {
-            myWebView.evaluateJavascript("document.querySelector('.fullscreen-icon').click()", null)
-        } else if (myWebView.canGoBack()) {
-            myWebView.goBack()
-        } else {
-            super.onBackPressed()
         }
     }
 }

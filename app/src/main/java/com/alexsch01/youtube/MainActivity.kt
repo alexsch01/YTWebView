@@ -176,7 +176,7 @@ class MainActivity : AppCompatActivity() {
                             )
                         }
                         myWebView.canGoBack() -> myWebView.goBack()
-                        else -> isEnabled = false
+                        else -> finish()
                     }
                 }
             }

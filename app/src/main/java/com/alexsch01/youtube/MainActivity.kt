@@ -92,36 +92,54 @@ class MainActivity : AppCompatActivity() {
                             Element?.remove();
                     */
                     myWebView.evaluateJavascript("""
-                        if (document.querySelector('ad-slot-renderer')) {
-                            document.querySelector('ad-slot-renderer').hidden = true;
+                    (function() {
+                        const adSlot = document.querySelector('ad-slot-renderer');
+                        if (adSlot) {
+                            adSlot.hidden = true;
                         }
 
-                        if (document.querySelector('ytm-companion-ad-renderer')) {
-                            document.querySelector('ytm-companion-ad-renderer').hidden = true;
+                        const companionAd = document.querySelector('ytm-companion-ad-renderer');
+                        if (companionAd) {
+                            companionAd.hidden = true;
                         }
 
-                        if (document.querySelector('ytm-universal-watch-card-renderer')) {
-                            document.querySelector('ytm-universal-watch-card-renderer').hidden = true;
+                        const watchCard = document.querySelector('ytm-universal-watch-card-renderer');
+                        if (watchCard) {
+                            watchCard.hidden = true;
                         }
     
-                        if (document.querySelector('.unified-share-url-input')) {
-                            document.querySelector('.unified-share-url-input').value =
-                                document.querySelector('.unified-share-url-input').value.split('?si=')[0];
+                        const shareUrlInput = document.querySelector('.unified-share-url-input');
+                        if (shareUrlInput) {
+                            shareUrlInput.value = shareUrlInput.value.split('?si=')[0];
                         }
     
-                        if (document.querySelector('.ad-showing video') && !isNaN(document.querySelector('.ad-showing video').duration)) {
-                            document.querySelector('.ad-showing video').currentTime =
-                                document.querySelector('.ad-showing video').duration;
+                        const adShowingVideo = document.querySelector('.ad-showing video');
+                        if (adShowingVideo && !isNaN(adShowingVideo.duration)) {
+                            adShowingVideo.currentTime = adShowingVideo.duration;
                         }
 
                         document.querySelectorAll(`ytm-video-with-context-renderer:has(
-                            badge-shape[aria-label="Purchased"],
-                            badge-shape[aria-label="Preview only"],
-                            badge-shape[aria-label="Try now"],
-                            badge-shape[aria-label="Free with ads"]
+                            :is(
+                                badge-shape[aria-label="Purchased"],
+                                badge-shape[aria-label="Preview only"],
+                                badge-shape[aria-label="Try now"],
+                                badge-shape[aria-label="Free with ads"]
+                            )
                         )`).forEach(elem => {
                             elem.hidden = true;
                         });
+
+                        const adSkipButton = document.querySelector('.ytp-ad-skip-button-modern');
+                        if (adSkipButton) {
+                            rect = adSkipButton.getBoundingClientRect();
+                            if (rect.width === 0 || rect.height === 0) return null;
+
+                            return {
+                                x: rect.left + rect.width / 2,
+                                y: rect.top + rect.height / 2
+                            };
+                        }
+                    })()
                     """.trimIndent(), null)
                 }
 

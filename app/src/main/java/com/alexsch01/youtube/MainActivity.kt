@@ -128,17 +128,6 @@ class MainActivity : AppCompatActivity() {
                         )`).forEach(elem => {
                             elem.hidden = true;
                         });
-
-                        const adSkipButton = document.querySelector('.ytp-ad-skip-button-modern');
-                        if (adSkipButton) {
-                            rect = adSkipButton.getBoundingClientRect();
-                            if (rect.width === 0 || rect.height === 0) return null;
-
-                            return {
-                                x: rect.left + rect.width / 2,
-                                y: rect.top + rect.height / 2
-                            };
-                        }
                     })()
                     """.trimIndent(), null)
                 }

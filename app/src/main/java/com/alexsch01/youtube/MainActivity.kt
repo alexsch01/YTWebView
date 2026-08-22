@@ -95,20 +95,14 @@ class MainActivity : AppCompatActivity() {
                     */
                     myWebView.evaluateJavascript("""
                     (function() {
-                        const adSlot = document.querySelector('ad-slot-renderer');
-                        if (adSlot) {
-                            adSlot.hidden = true;
-                        }
-
-                        const companionAd = document.querySelector('ytm-companion-ad-renderer');
-                        if (companionAd) {
-                            companionAd.hidden = true;
-                        }
-
-                        const watchCard = document.querySelector('ytm-universal-watch-card-renderer');
-                        if (watchCard) {
-                            watchCard.hidden = true;
-                        }
+                        [
+                            'ad-slot-renderer',
+                            'ytm-companion-ad-renderer',
+                            'ytm-universal-watch-card-renderer'
+                        ].forEach(sel => {
+                            const elem = document.querySelector(sel);
+                            if (elem) elem.hidden = true;
+                        });
     
                         const shareUrlInput = document.querySelector('.unified-share-url-input');
                         if (shareUrlInput) {

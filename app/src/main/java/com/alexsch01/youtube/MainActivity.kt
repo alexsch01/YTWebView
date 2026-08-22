@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
                 "m.youtube.com",
                 "youtube.com",
                 "www.youtube.com"
-            }
+            )
 
             override fun shouldOverrideUrlLoading(
                 view: WebView?,

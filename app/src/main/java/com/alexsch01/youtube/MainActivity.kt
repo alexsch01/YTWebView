@@ -16,6 +16,8 @@ import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import java.net.HttpURLConnection
+import java.net.URL
 import java.net.URLDecoder
 
 class MainActivity : AppCompatActivity() {
@@ -118,6 +120,11 @@ class MainActivity : AppCompatActivity() {
                             adShowingVideo.currentTime = adShowingVideo.duration;
                         }
 
+                        const adSkipButton = document.querySelector('.ytp-ad-skip-button-modern');
+                        if (adSkipButton && adSkipButton.checkVisibility()) {
+                            adSkipButton.click();
+                        }
+
                         document.querySelectorAll(`ytm-video-with-context-renderer:has(
                             :is(
                                 badge-shape[aria-label="Purchased"],
@@ -130,6 +137,27 @@ class MainActivity : AppCompatActivity() {
                         });
                     })()
                     """.trimIndent(), null)
+                }
+
+                val urlString = request?.url.toString()
+                val regex = """^https://m\.youtube\.com/s/player/[a-zA-Z0-9]+/.*ad\.js$""".toRegex()
+
+                if (urlString.matches(regex)) {
+                    try {
+                        val connection = URL(urlString).openConnection() as HttpURLConnection
+
+                        // Read response stream
+                        val inputStream = connection.inputStream
+                        val originalText = inputStream.bufferedReader().use { it.readText() }
+
+                        // Perform the literal string replacement
+                        val modifiedText = originalText.replace(".isTrusted", "||true")
+                        val modifiedStream = modifiedText.byteInputStream(Charsets.UTF_8)
+
+                        return WebResourceResponse("application/javascript", "UTF-8", modifiedStream)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
 
                 return null

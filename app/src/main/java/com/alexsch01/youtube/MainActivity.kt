@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
                         )`).forEach(elem => {
                             elem.hidden = true;
                         });
-                    """, null)
+                    """.trimIndent(), null)
                 }
 
                 return null

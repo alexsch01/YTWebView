@@ -129,12 +129,6 @@ class MainActivity : AppCompatActivity() {
                         )`).forEach(elem => {
                             elem.hidden = true;
                         });
-
-                        if (!window._keepAliveInterval) {
-                            window._keepAliveInterval = setInterval(() => {
-                                window.dispatchEvent(new Event('touchstart'));
-                            }, 60000);
-                        }
                     })()
                     """.trimIndent(), null)
                 }

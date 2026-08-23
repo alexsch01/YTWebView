@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity() {
                         val originalText = inputStream.bufferedReader().use { it.readText() }
 
                         // Perform the literal string replacement
-                        val modifiedText = originalText.replace(".isTrusted", "||true")
+                        val modifiedText = originalText.replace(".isTrusted", ".isTrusted||true")
                         val modifiedStream = modifiedText.byteInputStream(Charsets.UTF_8)
 
                         return WebResourceResponse("application/javascript", "UTF-8", modifiedStream)

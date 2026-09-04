@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity() {
                             elem.hidden = true;
                         });
 
-                        document.querySelectorAll('.ytAttributedStringHost').forEach(el => {
+                        document.querySelectorAll('ytm-rich-item-renderer .ytAttributedStringHost').forEach(el => {
                             if (!el.textContent.trim().startsWith('Scheduled for')) return;
 
                             const item = el.closest('ytm-rich-item-renderer');

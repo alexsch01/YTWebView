@@ -129,6 +129,24 @@ class MainActivity : AppCompatActivity() {
                         )`).forEach(elem => {
                             elem.hidden = true;
                         });
+
+                        document.querySelectorAll('.ytAttributedStringHost').forEach(el => {
+                            if (!el.textContent.trim().startsWith('Scheduled for')) return;
+
+                            const item = el.closest('ytm-rich-item-renderer');
+                            if (!item) return;
+
+                            item.style.pointerEvents = 'none';
+
+                            [
+                                'ytw-channel-thumbnail-with-link-renderer',
+                                'ytm-bottom-sheet-renderer',
+                                'ytm-menu-renderer'
+                            ].forEach(selector => {
+                                const child = item.querySelector(selector);
+                                if (child) child.style.pointerEvents = 'auto';
+                            });
+                        });
                     })()
                     """.trimIndent(), null)
                 }
